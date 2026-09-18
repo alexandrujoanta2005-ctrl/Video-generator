@@ -1,0 +1,11 @@
+[ ] Am dezarhivat proiectul
+[ ] Am încărcat fișierele/folderele în repo, nu ZIP-ul
+[ ] server.mjs este în rădăcina repo-ului
+[ ] package.json este în rădăcina repo-ului
+[ ] public/index.html există
+[ ] public/sw.js este versiunea v4.1
+[ ] repo este conectat la Render
+[ ] FAL_KEY este setat în Render
+[ ] deploy-ul a terminat fără eroare
+[ ] /api/health arată version 4.1.0
+[ ] pe iPhone am redeschis aplicația după deploy

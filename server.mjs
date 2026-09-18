@@ -20,7 +20,14 @@ fs.mkdirSync(outputDir,{recursive:true});
 app.use(express.json({limit:"2mb"}));
 app.use(express.urlencoded({extended:true}));
 app.use("/outputs",express.static(outputDir,{maxAge:"1h"}));
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static(path.join(__dirname,"public"),{
+  etag:true,
+  setHeaders:(res,filePath)=>{
+    if(/\.(html|js|css|webmanifest)$/.test(filePath)){
+      res.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
+    }
+  }
+}));
 const upload=multer({storage:multer.memoryStorage(),limits:{fileSize:25*1024*1024}});
 
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -74,7 +81,7 @@ function transcodeFPS(inputPath,fps){
   });
 }
 
-app.get('/api/health',(req,res)=>res.json({ok:true,aiConfigured:Boolean(process.env.FAL_KEY),ffmpeg:Boolean(ffmpegPath),version:'4.0.0'}));
+app.get('/api/health',(req,res)=>res.json({ok:true,aiConfigured:Boolean(process.env.FAL_KEY),ffmpeg:Boolean(ffmpegPath),version:'4.1.0'}));
 app.post('/api/robot/parse',(req,res)=>{const prompt=String(req.body?.prompt||'');const parsed=parseRobot(prompt);res.json({parsed,aiPrompt:buildPrompt(prompt,parsed)});});
 
 app.post('/api/ai-video',upload.single('image'),async(req,res)=>{
@@ -109,5 +116,5 @@ app.post('/api/ai-video',upload.single('image'),async(req,res)=>{
   }catch(err){console.error(err);res.status(500).json({error:err?.message||'Eroare la generarea video.'});}
 });
 
-app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
-app.listen(PORT,'0.0.0.0',()=>console.log(`Cinematic AI Studio v4: http://localhost:${PORT}`));
+app.get('/{*splat}',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
+app.listen(PORT,'0.0.0.0',()=>console.log(`Cinematic AI Studio v4.1: http://localhost:${PORT}`));

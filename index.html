@@ -1,108 +1,19 @@
 <!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#101114" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Cinematic Maker" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
-  <title>Cinematic Maker PWA</title>
-  <style>
-    :root{
-      --bg:#0f1013; --card:#17191e; --muted:#9da3ae; --text:#f7f7f8;
-      --accent:#ffffff; --line:#2a2e36; --ok:#77d68b; --warn:#f0c36a;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-    body{min-height:100vh}
-    .app{max-width:900px;margin:auto;padding:calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 28px)}
-    h1{font-size:26px;margin:0 0 6px}
-    .sub{color:var(--muted);margin:0 0 18px;line-height:1.4}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
-    label{display:block;font-weight:700;font-size:14px;margin:0 0 8px}
-    input[type=file],textarea,input[type=number],select{width:100%;background:#101217;color:var(--text);border:1px solid #343945;border-radius:12px;padding:12px;font-size:16px}
-    textarea{min-height:120px;resize:vertical}
-    button{appearance:none;border:0;border-radius:14px;padding:13px 16px;font-weight:800;font-size:16px;background:#f4f4f5;color:#111;cursor:pointer}
-    button.secondary{background:#242831;color:#fff;border:1px solid #343945}
-    button:disabled{opacity:.45;cursor:not-allowed}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-    .preview-wrap{display:flex;justify-content:center;background:#090a0d;border-radius:18px;overflow:hidden;border:1px solid var(--line);padding:10px}
-    canvas{display:block;width:min(100%,420px);aspect-ratio:9/16;background:#000;border-radius:14px}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .chip{font-size:12px;padding:7px 9px;border-radius:999px;background:#222630;color:#d9dce2;border:1px solid #343945}
-    .status{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.4}
-    .status.ok{color:var(--ok)} .status.warn{color:var(--warn)}
-    .install-tip{font-size:13px;color:var(--muted);line-height:1.5}
-    .small{font-size:12px;color:var(--muted)}
-    .switches{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-    .switch{display:flex;align-items:center;gap:8px;background:#101217;border:1px solid #343945;padding:10px;border-radius:12px;font-size:13px}
-    .switch input{transform:scale(1.2)}
-    @media(min-width:760px){.grid.two{grid-template-columns:1fr 1fr}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cinematic AI Studio</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b0d12;color:#fff;margin:0;padding:32px}
+main{max-width:700px;margin:auto;background:#151922;border:1px solid #2a3140;border-radius:20px;padding:24px}
+code{background:#0b0e14;padding:3px 6px;border-radius:6px}
+p{line-height:1.55;color:#cfd6e2}
+</style>
 </head>
-<body>
-<div class="app">
-  <h1>Cinematic Maker</h1>
-  <p class="sub">PWA pentru iPhone: încarci poza, scrii ce vrei să se miște, vezi preview și exporți un clip scurt.</p>
-
-  <div class="grid two">
-    <section class="card">
-      <label>1. Încarcă poza</label>
-      <input id="imageInput" type="file" accept="image/*" />
-
-      <label style="margin-top:14px">2. Scrie comanda pentru „robot”</label>
-      <textarea id="prompt">Băiatul să nu se miște. Textul să rămână fix până la final. Camera să se ridice ușor în sus, zoom foarte lent, norii să se miște încet și apa să aibă reflexii subtile. 10 secunde.</textarea>
-
-      <div class="row" style="margin-top:10px">
-        <div>
-          <label>Durată</label>
-          <input id="duration" type="number" min="3" max="20" step="1" value="10" />
-        </div>
-        <div>
-          <label>FPS</label>
-          <select id="fps"><option>30</option><option>24</option></select>
-        </div>
-      </div>
-
-      <div class="switches">
-        <label class="switch"><input id="keepSubject" type="checkbox" checked> Subiect nemișcat</label>
-        <label class="switch"><input id="keepText" type="checkbox" checked> Text fix</label>
-      </div>
-
-      <div class="actions">
-        <button id="applyBtn">Aplică instrucțiunea</button>
-        <button id="previewBtn" class="secondary" disabled>Previzualizare</button>
-      </div>
-      <div id="parsed" class="chips"></div>
-      <div id="status" class="status">Încarcă o imagine pentru a începe.</div>
-    </section>
-
-    <section class="card">
-      <div class="preview-wrap">
-        <canvas id="canvas" width="540" height="960"></canvas>
-      </div>
-
-      <div class="actions">
-        <button id="exportBtn" disabled>Exportă video</button>
-        <button id="stopBtn" class="secondary" disabled>Oprește</button>
-      </div>
-      <div id="exportStatus" class="status"></div>
-
-      <p class="small">Exportul folosește ce suportă browserul. Pe iPhone, Safari poate alege MP4 sau un format video compatibil; dacă nu poate înregistra canvas-ul, poți folosi screen recording.</p>
-    </section>
-  </div>
-
-  <section class="card" style="margin-top:14px">
-    <b>Instalare pe iPhone</b>
-    <p class="install-tip">După ce pui acest folder pe un site HTTPS (GitHub Pages, Netlify, Vercel etc.), deschizi site-ul în Safari → Share → <b>Add to Home Screen</b>. PWA-ul nu se poate instala direct dintr-un ZIP local pe iPhone; ZIP-ul este proiectul gata de publicat.</p>
-  </section>
-</div>
-
-<script src="app.js"></script>
-</body>
-</html>
+<body><main>
+<h1>Cinematic AI Studio v4.1</h1>
+<p>Repository-ul GitHub conține aplicația FULL, dar backend-ul AI nu poate rula pe GitHub Pages.</p>
+<p>Pentru aplicația funcțională, publică acest repository pe Render/Railway/Fly.io și deschide URL-ul serverului.</p>
+<p>Test server: <code>/api/health</code></p>
+</main></body></html>

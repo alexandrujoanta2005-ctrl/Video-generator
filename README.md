@@ -1,33 +1,58 @@
-# Cinematic AI Studio v4 — iPhone FULL + 60 FPS
+# Cinematic AI Studio v4.1 — FIXED
 
-Versiune făcută pentru iPhone/PWA și VS Code.
+Am corectat proiectul încărcat.
 
-## Ce are
-- interfață simplificată pentru iPhone
-- robot cu instrucțiuni în română
-- AI Motion: Kling 3 / Pika 2.2 prin fal.ai
-- Safe Motion fără API
-- 30 FPS sau 60 FPS
-- pentru AI Motion, serverul încearcă interpolare la 60 FPS cu FFmpeg
-- citat separat, fix peste video
-- PWA instalabilă din Safari
-- export/download video
+## Ce era greșit
 
-## Important despre 60 FPS
-AI-ul poate genera la propriul FPS intern. Opțiunea 60 FPS din aplicație face post-procesare/interpolare pentru un clip mai fluid. Nu înseamnă că modelul AI a generat nativ fiecare cadru la 60 FPS.
+1. În rădăcina repository-ului existau `index.html`, `app.js` și `sw.js` vechi.
+   GitHub Pages putea afișa acea versiune veche, de aceea părea că nu s-a schimbat nimic.
+2. Versiunea nouă era în `public/`.
+3. Service Worker-ul din `public/` folosea cache vechi și putea ține interfața veche pe iPhone.
+4. `server.mjs` avea fallback-ul `app.get('*', ...)`, problematic cu Express 5.
+5. README-ul cerea `.env.example`, dar fișierul lipsea.
 
-## Pe PC / VS Code
-1. Instalează Node.js 20+.
-2. Deschide folderul în VS Code.
-3. Copiază `.env.example` ca `.env`.
-4. Pune `FAL_KEY=...` în `.env` pentru AI Motion.
-5. Rulează `npm install` și `npm start`.
-6. Deschide `http://localhost:3000`.
+## Important: GitHub nu rulează aplicația FULL
 
-## Pe iPhone
-AI Motion are nevoie de server online. Publică proiectul pe un host Node/Docker, de exemplu Render/Railway/Fly.io.
-Pe Render există `render.yaml` în proiect. Adaugi `FAL_KEY` ca secret/env var.
-După publicare: deschizi linkul în Safari -> Share -> Add to Home Screen.
+GitHub păstrează codul. GitHub Pages poate afișa doar partea statică.
+AI Motion, FFmpeg și `/api/*` au nevoie de server Node.
 
-## Flux recomandat pentru citate
-Pentru rezultate curate: folosește la AI o imagine fără text și pune citatul în câmpul `Citat separat`. Astfel AI-ul nu poate strica literele.
+Fluxul corect:
+
+GitHub repository -> Render/Railway/Fly.io -> URL HTTPS -> iPhone PWA
+
+## Deploy pe Render
+
+1. Încarcă FIȘIERELE din acest folder în repository, nu ZIP-ul ca un singur fișier.
+2. În Render: New -> Web Service / Blueprint.
+3. Conectează repository-ul.
+4. Adaugă variabila secretă:
+   `FAL_KEY=cheia_ta_fal`
+5. Deploy.
+6. Deschide:
+   `https://ADRESA-TA/api/health`
+
+Trebuie să apară:
+- `"ok": true`
+- `"version": "4.1.0"`
+
+## iPhone
+
+După deploy:
+1. Deschide URL-ul Render în Safari.
+2. Dacă ai instalată versiunea veche, șterge iconița veche de pe Home Screen.
+3. Reîncarcă pagina în Safari.
+4. Share -> Add to Home Screen.
+
+v4.1 folosește un cache PWA nou și șterge cache-urile vechi.
+
+## Local în VS Code
+
+Node.js 20+:
+
+```bash
+npm install
+npm start
+```
+
+Apoi:
+`http://localhost:3000`
