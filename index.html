@@ -1,19 +1,111 @@
 <!doctype html>
 <html lang="ro">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cinematic AI Studio</title>
-<style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b0d12;color:#fff;margin:0;padding:32px}
-main{max-width:700px;margin:auto;background:#151922;border:1px solid #2a3140;border-radius:20px;padding:24px}
-code{background:#0b0e14;padding:3px 6px;border-radius:6px}
-p{line-height:1.55;color:#cfd6e2}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cinematic Free">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+  <title>Cinematic Free</title>
 </head>
-<body><main>
-<h1>Cinematic AI Studio v4.1</h1>
-<p>Repository-ul GitHub conține aplicația FULL, dar backend-ul AI nu poate rula pe GitHub Pages.</p>
-<p>Pentru aplicația funcțională, publică acest repository pe Render/Railway/Fly.io și deschide URL-ul serverului.</p>
-<p>Test server: <code>/api/health</code></p>
-</main></body></html>
+<body>
+<main class="app">
+  <header>
+    <div>
+      <h1>Cinematic Free <span class="version">v1</span></h1>
+      <p>100% local în browser • fără API • fără card • pentru iPhone / GitHub Pages</p>
+    </div>
+    <span class="badge">FREE</span>
+  </header>
+
+  <section class="card">
+    <div class="grid">
+      <div>
+        <label>1. Încarcă poza</label>
+        <input id="imageInput" type="file" accept="image/*">
+
+        <label>2. Spune „robotului” ce vrei</label>
+        <textarea id="prompt">Băiatul să rămână nemișcat. Camera să se ridice foarte ușor, zoom lent, norii să se miște încet și apa să aibă reflexii subtile. 10 secunde.</textarea>
+
+        <div class="row">
+          <div>
+            <label>FPS</label>
+            <select id="fps">
+              <option value="24">24 FPS</option>
+              <option value="30" selected>30 FPS</option>
+              <option value="60">60 FPS</option>
+            </select>
+          </div>
+          <div>
+            <label>Durată</label>
+            <select id="duration">
+              <option value="5">5 sec</option>
+              <option value="8">8 sec</option>
+              <option value="10" selected>10 sec</option>
+              <option value="12">12 sec</option>
+              <option value="15">15 sec</option>
+            </select>
+          </div>
+        </div>
+
+        <details>
+          <summary>Text fix peste video</summary>
+          <label>Citat separat</label>
+          <textarea id="quote" class="small" placeholder="Scrie citatul aici pentru a rămâne perfect fix."></textarea>
+          <div class="row">
+            <div>
+              <label>Poziție</label>
+              <select id="quoteY">
+                <option value="0.25">Sus</option>
+                <option value="0.46" selected>Mijloc</option>
+                <option value="0.70">Jos</option>
+              </select>
+            </div>
+            <div>
+              <label>Mărime</label>
+              <select id="quoteSize">
+                <option value="30">Mic</option>
+                <option value="40" selected>Mediu</option>
+                <option value="50">Mare</option>
+              </select>
+            </div>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button id="interpretBtn" class="secondary">🤖 Interpretează</button>
+          <button id="previewBtn" disabled>▶️ Preview</button>
+          <button id="exportBtn" disabled>⬇️ Export video</button>
+        </div>
+
+        <div id="chips" class="chips"></div>
+        <div id="status" class="status">Încarcă o imagine.</div>
+      </div>
+
+      <div>
+        <div class="stage">
+          <canvas id="canvas" width="540" height="960"></canvas>
+        </div>
+        <p class="hint">Dacă citatul este deja desenat în poză, aplicația nu îl regenerează și nu îi schimbă literele. Pentru text complet fix pe ecran în timp ce camera se mișcă, folosește „Citat separat”.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Ce face gratis</h2>
+    <div class="features">
+      <span>🤖 comandă în română</span><span>☁️ nori subtili</span><span>🌊 reflexii apă</span>
+      <span>🎥 zoom / rise / pan</span><span>✨ lumină cinematică</span><span>📝 text fix</span>
+      <span>📱 9:16</span><span>⚡ până la 60 FPS</span><span>🔒 fără API</span>
+    </div>
+    <p class="hint">Nu este AI generativ ca Kling/CapCut AI. E un animator cinematic local, controlat, care nu consumă bani.</p>
+  </section>
+</main>
+
+<script src="./app.js"></script>
+</body>
+</html>

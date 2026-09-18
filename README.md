@@ -1,58 +1,51 @@
-# Cinematic AI Studio v4.1 — FIXED
+# Cinematic Free — GitHub Pages + iPhone
 
-Am corectat proiectul încărcat.
+Această versiune este 100% gratuită și nu folosește chei API.
 
-## Ce era greșit
+## Ce trebuie să faci
 
-1. În rădăcina repository-ului existau `index.html`, `app.js` și `sw.js` vechi.
-   GitHub Pages putea afișa acea versiune veche, de aceea părea că nu s-a schimbat nimic.
-2. Versiunea nouă era în `public/`.
-3. Service Worker-ul din `public/` folosea cache vechi și putea ține interfața veche pe iPhone.
-4. `server.mjs` avea fallback-ul `app.get('*', ...)`, problematic cu Express 5.
-5. README-ul cerea `.env.example`, dar fișierul lipsea.
+1. Dezarhivează ZIP-ul.
+2. Intră în folderul `Cinematic-Free-PWA-GitHub`.
+3. În repository-ul GitHub pune TOATE fișierele din acel folder direct în rădăcina repository-ului.
+4. Commit changes.
+5. În GitHub intră la:
+   `Settings -> Pages`
+6. La `Build and deployment` alege:
+   `Deploy from a branch`
+7. Branch:
+   `main`
+8. Folder:
+   `/(root)`
+9. Save.
 
-## Important: GitHub nu rulează aplicația FULL
+După câteva minute GitHub îți arată linkul site-ului.
 
-GitHub păstrează codul. GitHub Pages poate afișa doar partea statică.
-AI Motion, FFmpeg și `/api/*` au nevoie de server Node.
+## Pe iPhone
 
-Fluxul corect:
+1. Deschide linkul GitHub Pages în Safari.
+2. Share.
+3. Add to Home Screen.
 
-GitHub repository -> Render/Railway/Fly.io -> URL HTTPS -> iPhone PWA
+Apoi aplicația apare ca o iconiță.
 
-## Deploy pe Render
+## Ce poate face
 
-1. Încarcă FIȘIERELE din acest folder în repository, nu ZIP-ul ca un singur fișier.
-2. În Render: New -> Web Service / Blueprint.
-3. Conectează repository-ul.
-4. Adaugă variabila secretă:
-   `FAL_KEY=cheia_ta_fal`
-5. Deploy.
-6. Deschide:
-   `https://ADRESA-TA/api/health`
+- 24 / 30 / 60 FPS
+- zoom lent
+- camera rise
+- pan stânga/dreapta
+- efect subtil de nori
+- efect subtil de apă/reflexii
+- lumină cinematică
+- text separat, fix peste video
+- preview
+- export video când Safari/browserul suportă MediaRecorder + canvas capture
 
-Trebuie să apară:
-- `"ok": true`
-- `"version": "4.1.0"`
+## Important
 
-## iPhone
+Nu este un AI generativ ca Kling, Runway sau CapCut AI.
+Nu creează obiecte sau mișcare semantică nouă.
+Este un animator cinematic local și gratuit, fără costuri.
 
-După deploy:
-1. Deschide URL-ul Render în Safari.
-2. Dacă ai instalată versiunea veche, șterge iconița veche de pe Home Screen.
-3. Reîncarcă pagina în Safari.
-4. Share -> Add to Home Screen.
-
-v4.1 folosește un cache PWA nou și șterge cache-urile vechi.
-
-## Local în VS Code
-
-Node.js 20+:
-
-```bash
-npm install
-npm start
-```
-
-Apoi:
-`http://localhost:3000`
+Dacă Safari nu oferă export video direct, folosește Screen Recording pe iPhone.
+Preview-ul și efectele funcționează în continuare.
