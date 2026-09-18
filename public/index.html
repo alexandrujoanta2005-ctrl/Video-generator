@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cinematic AI">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+  <title>Cinematic AI Studio</title>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Cinematic AI Studio</h1>
+        <p>Imagine → instrucțiune în română → video vertical pentru TikTok/Reels.</p>
+      </div>
+      <span id="aiBadge" class="badge">Verific AI…</span>
+    </header>
+
+    <section class="hero card">
+      <div class="tabs">
+        <button class="tab active" data-mode="safe">Safe Motion</button>
+        <button class="tab" data-mode="ai">AI Motion</button>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Imagine</label>
+          <input id="imageInput" type="file" accept="image/*">
+          <div id="drop" class="drop">Alege o imagine verticală 9:16</div>
+
+          <label>Robot — spune-i ce vrei</label>
+          <textarea id="prompt">Băiatul să nu se miște. Camera să se ridice foarte ușor în sus, zoom lent, norii să se miște încet și apa să aibă reflexii subtile. 10 secunde.</textarea>
+
+          <div class="row">
+            <div>
+              <label>Durată</label>
+              <select id="duration">
+                <option value="5">5 sec</option>
+                <option value="8">8 sec</option>
+                <option value="10" selected>10 sec</option>
+                <option value="12">12 sec</option>
+                <option value="15">15 sec</option>
+              </select>
+            </div>
+            <div>
+              <label>Model AI</label>
+              <select id="model">
+                <option value="kling">Kling 3 Standard</option>
+                <option value="pika">Pika 2.2</option>
+              </select>
+            </div>
+          </div>
+
+          <details class="advanced">
+            <summary>Text fix / opțiuni</summary>
+            <label>Citat separat (recomandat)</label>
+            <textarea id="quote" class="smallarea" placeholder="Lipește citatul aici. Îl suprapunem peste video fără ca AI-ul să-l poată modifica."></textarea>
+            <div class="row">
+              <div>
+                <label>Poziție citat</label>
+                <select id="quoteY">
+                  <option value="0.30">Sus</option>
+                  <option value="0.48" selected>Mijloc</option>
+                  <option value="0.68">Jos</option>
+                </select>
+              </div>
+              <div>
+                <label>Mărime text</label>
+                <select id="quoteSize">
+                  <option value="34">Mic</option>
+                  <option value="42" selected>Mediu</option>
+                  <option value="50">Mare</option>
+                </select>
+              </div>
+            </div>
+            <label class="check"><input id="audioToggle" type="checkbox"> Permite audio nativ AI (Kling)</label>
+          </details>
+
+          <div class="actions">
+            <button id="interpretBtn" class="secondary">Interpretează comanda</button>
+            <button id="generateBtn">Generează</button>
+          </div>
+          <div id="chips" class="chips"></div>
+          <div id="status" class="status"></div>
+        </div>
+
+        <div>
+          <div class="stage">
+            <canvas id="canvas" width="540" height="960"></canvas>
+            <video id="aiVideo" playsinline controls loop hidden></video>
+          </div>
+          <div class="actions">
+            <button id="previewBtn" class="secondary" disabled>Preview</button>
+            <button id="exportBtn" class="secondary" disabled>Export cu citat</button>
+          </div>
+          <p class="hint">Pentru text garantat neschimbat, folosește „Citat separat”. AI-ul generează video fără să atingă stratul de text.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Ce poate face</h2>
+      <div class="features">
+        <span>🤖 comandă în română</span><span>☁️ nori</span><span>🌊 apă/reflexii</span>
+        <span>🎥 zoom/pan/rise</span><span>🧍 subiect stabil</span><span>🔒 text separat fix</span>
+        <span>📱 9:16</span><span>🎞️ AI video</span><span>💾 export</span>
+      </div>
+    </section>
+  </main>
+<script src="/app.js"></script>
+</body>
+</html>
