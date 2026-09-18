@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: cinematic-ai-studio
+    runtime: docker
+    plan: starter
+    envVars:
+      - key: FAL_KEY
+        sync: false
+      - key: PORT
+        value: 3000

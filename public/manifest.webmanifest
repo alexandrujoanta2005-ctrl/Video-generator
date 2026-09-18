@@ -1,5 +1,5 @@
 {
-  "name": "Cinematic AI Studio",
+  "name": "Cinematic AI Studio iPhone",
   "short_name": "Cinematic AI",
   "start_url": "/",
   "display": "standalone",
@@ -16,5 +16,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "description": "AI image-to-video studio for iPhone, TikTok and Reels."
 }
